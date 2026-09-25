@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tramitología GT · maqueta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#172536; --paper:#F4F6F8; --surface:#FFFFFF; --line:#DCE1E7; --muted:#5B6878;
+  --nos:#A64B00; --nos-bg:#FDF0E1;
+  --inst:#35578A; --inst-bg:#E8EEF7;
+  --late:#B42318; --late-bg:#FDECEA;
+  --ok:#0E7A64; --ok-bg:#E3F4EF;
+  --idle:#6B7280; --idle-bg:#EEF0F3;
+  --r:6px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper);font-size:14px;line-height:1.45;font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--inst);outline-offset:2px}
+
+/* Barra superior */
+.top{display:flex;align-items:center;gap:16px;padding:12px 24px;background:var(--ink);color:#fff}
+.brand{display:flex;flex-direction:column}
+.brand b{font-size:17px;letter-spacing:-.01em}
+.brand span{font-size:12px;opacity:.7}
+.top .spacer{flex:1}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:8px 14px;font-weight:600}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:#fff;color:var(--ink);border-color:#fff}
+.top .btn.primary:hover{background:#E8EEF7}
+.btn.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff}
+
+/* Layout */
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:calc(100% - 60px)}
+aside{border-right:1px solid var(--line);background:var(--surface);padding:20px;display:flex;flex-direction:column;gap:14px}
+aside h2{font-size:13px;margin:0;color:var(--muted);font-weight:600}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:12px;color:var(--muted);font-weight:500}
+.field select,.field input,.field textarea{border:1px solid var(--line);border-radius:var(--r);padding:7px 9px;background:#fff;width:100%}
+.field textarea{min-height:70px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.linkbtn{background:none;border:0;color:var(--inst);padding:0;font-weight:600;text-align:left}
+main{padding:20px 28px 60px;min-width:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.tabs button{background:none;border:0;padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.count{font-size:12px;color:var(--muted);margin-left:4px;font-weight:500}
+
+/* Chips */
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.c-nos{background:var(--nos-bg);color:var(--nos)}
+.c-inst{background:var(--inst-bg);color:var(--inst)}
+.c-late{background:var(--late-bg);color:var(--late)}
+.c-ok{background:var(--ok-bg);color:var(--ok)}
+.c-idle{background:var(--idle-bg);color:var(--idle)}
+.c-plain{background:transparent;border:1px solid var(--line);color:var(--muted);font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* Dashboard: la pelota */
+.court{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;margin-bottom:16px}
+.court > div{padding:20px 24px;cursor:pointer}
+.court > div:hover{background:#FAFBFC}
+.court .nos{border-right:1px solid var(--line);box-shadow:inset 4px 0 0 var(--nos)}
+.court .inst{box-shadow:inset -4px 0 0 var(--inst)}
+.court .n{font-size:44px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.court .nos .n{color:var(--nos)} .court .inst .n{color:var(--inst)}
+.court p{margin:6px 0 0;color:var(--muted)}
+.court h3{margin:0 0 8px;font-size:15px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;cursor:pointer;text-align:left}
+.kpi:hover{border-color:var(--ink)}
+.kpi b{display:block;font-size:24px}
+.kpi span{color:var(--muted);font-size:13px}
+.kpi.late b{color:var(--late)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0}
+.panel h3{margin:0 0 12px;font-size:15px}
+.panel .sub{color:var(--muted);font-size:12px;font-weight:500;margin-left:6px}
+.bar{display:grid;grid-template-columns:140px 1fr 32px;align-items:center;gap:10px;padding:3px 0;font-size:13px}
+.bar .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .track{height:14px;background:var(--idle-bg);border-radius:3px;display:flex;overflow:hidden}
+.bar .track i{display:block;height:100%}
+.bar .v{text-align:right;font-weight:600}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+
+/* Listas */
+.list{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.item:first-child{border-top:0}
+.item:hover .t{text-decoration:underline}
+.item .t{font-weight:600}
+.item .m{color:var(--muted);font-size:13px}
+.item .chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:start}
+
+/* Agenda */
+.day{margin-bottom:18px}
+.day h4{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:600}
+.day h4.late{color:var(--late)}
+.day .panel{padding:4px 16px}
+
+/* Tabla */
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);background:#FAFBFC;white-space:nowrap;cursor:pointer;user-select:none}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#FAFBFC}
+td .small{color:var(--muted);font-size:12px}
+
+/* Calendario */
+.calhead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.calhead h3{margin:0;font-size:17px;min-width:170px;text-transform:capitalize}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line);background:var(--surface)}
+.cal .dow{padding:6px 8px;font-size:12px;color:var(--muted);font-weight:600;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#FAFBFC}
+.cal .cell{min-height:104px;padding:6px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal .cell.out{background:#FAFBFC;color:#A0A8B3}
+.cal .cell.today .num{background:var(--ink);color:#fff;border-radius:4px;padding:0 5px}
+.cal .num{font-size:12px;font-weight:600;align-self:flex-start}
+.ev{font-size:11.5px;padding:2px 5px;border-radius:3px;border-left:3px solid;background:#F7F8FA;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;text-align:left;border-top:0;border-right:0;border-bottom:0;width:100%}
+.ev.accion{border-color:var(--nos)} .ev.resol{border-color:var(--inst)} .ev.vence{border-color:var(--late)}
+
+/* Bitácora */
+.log{position:relative;padding-left:18px}
+.log:before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.log .e{position:relative;padding:0 0 16px;cursor:pointer}
+.log .e:before{content:"";position:absolute;left:-17px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.log .e.nos:before{border-color:var(--nos)} .log .e.inst:before{border-color:var(--inst)}
+.log .h{font-size:12px;color:var(--muted)}
+.log .x{margin-top:2px}
+
+/* Reporte */
+.rep-head{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.rep-head h2{margin:0;font-size:20px;flex:1}
+.rep-sum{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.rep-sum div b{font-size:22px;display:block}
+.rep-sum div span{font-size:12px;color:var(--muted)}
+.rep-proj{margin-bottom:18px;break-inside:avoid}
+.rep-proj h3{font-size:15px;margin:0 0 6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rep-proj h3 .tp{font-weight:500;color:var(--muted);font-size:13px}
+
+/* Drawer y modal */
+.scrim{position:fixed;inset:0;background:rgba(23,37,54,.35);display:none;z-index:20}
+.scrim.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);z-index:21;transform:translateX(100%);transition:transform .2s ease;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.drawer.on{transform:none}
+.drawer header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
+.drawer header h2{margin:0;font-size:18px;flex:1}
+.drawer .body{padding:18px 22px;overflow-y:auto;flex:1}
+.x-btn{background:none;border:0;font-size:22px;line-height:1;padding:2px 6px;color:var(--muted)}
+dl.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;margin:0 0 18px;font-size:13px}
+dl.kv dt{color:var(--muted)} dl.kv dd{margin:0}
+.box{border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:18px}
+.box h4{margin:0 0 10px;font-size:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.seg button{border:0;background:#fff;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed=true].n{background:var(--nos-bg);color:var(--nos)}
+.seg button[aria-pressed=true].i{background:var(--inst-bg);color:var(--inst)}
+dialog{border:0;border-radius:10px;padding:0;width:min(720px,94vw);box-shadow:0 20px 50px rgba(23,37,54,.25)}
+dialog::backdrop{background:rgba(23,37,54,.35)}
+dialog header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex}
+dialog header h2{margin:0;font-size:18px;flex:1}
+dialog .body{padding:18px 22px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+dialog .body .full{grid-column:1/-1}
+dialog footer{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}
+.hint{font-size:12px;color:var(--muted)}
+.err{color:var(--late);font-size:12px}
+.empty{padding:30px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:var(--r)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:var(--r);z-index:40;display:none}
+
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr}
+  aside{display:none;border-right:0;border-bottom:1px solid var(--line)}
+  aside.on{display:flex}
+  .menu-btn{display:inline-block}
+  .grid2,.kpis{grid-template-columns:1fr}
+  main{padding:16px}
+  .court .n{font-size:34px}
+  .cal .cell{min-height:70px}
+  .ev{font-size:10px}
+  dialog .body{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+@media print{
+  .top,aside,.tabs,.rep-head .btn,.rep-head .field,.no-print{display:none!important}
+  .shell{display:block} main{padding:0} body{background:#fff}
+  .tablewrap,.panel,.rep-sum{border-color:#bbb}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="btn sm menu-btn" id="menuBtn" aria-controls="filtros">Filtros</button>
+  <div class="brand"><b>Tramitología GT</b><span>BAMBU Guatemala · sesión de Jose Rimola</span></div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="nuevoBtn">Nuevo trámite</button>
+</div>
+
+<div class="shell">
+  <aside id="filtros" aria-label="Filtros">
+    <h2>Filtrar</h2>
+    <div class="field"><label for="fq">Buscar</label><input id="fq" type="search" placeholder="Trámite, nota, código…"></div>
+    <div class="field"><label for="ftipo">Tipo de proyecto</label><select id="ftipo"></select></div>
+    <div class="field"><label for="fproy">Proyecto</label><select id="fproy"></select></div>
+    <div class="field"><label for="finst">Institución</label><select id="finst"></select></div>
+    <div class="field"><label for="fenc">Encargado</label><select id="fenc"></select></div>
+    <div class="field"><label for="fest">Estado</label><select id="fest">
+      <option value="abiertos">Abiertos (no iniciados + en curso)</option>
+      <option value="">Todos</option>
+      <option value="en_curso">En curso</option>
+      <option value="no_iniciado">No iniciado</option>
+      <option value="obtenido">Obtenido</option>
+      <option value="denegado">Denegado</option>
+    </select></div>
+    <div class="field"><label for="fresp">¿Quién tiene la pelota?</label><select id="fresp">
+      <option value="">Cualquiera</option><option value="nosotros">Nos toca a nosotros</option><option value="institucion">Espera a la institución</option>
+    </select></div>
+    <div class="field"><label>Fechas clave entre</label>
+      <div class="row2"><input id="fdesde" type="date" aria-label="Desde"><input id="fhasta" type="date" aria-label="Hasta"></div>
+      <span class="hint">Próxima acción, resolución esperada o vencimiento de licencia.</span>
+    </div>
+    <button class="linkbtn" id="limpiar">Quitar filtros</button>
+  </aside>
+
+  <main>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+    <section id="view"></section>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <header><h2 id="dTitle"></h2><button class="x-btn" id="dClose" aria-label="Cerrar">×</button></header>
+  <div class="body" id="dBody"></div>
+</div>
+
+<dialog id="modal">
+  <form method="dialog" id="fNuevo">
+    <header><h2>Nuevo trámite</h2><button class="x-btn" value="cancel" aria-label="Cerrar">×</button></header>
+    <div class="body">
+      <div class="field full"><label for="nNombre">Nombre del trámite</label><input id="nNombre" required placeholder="Ej. Licencia de construcción"></div>
+      <div class="field"><label for="nProy">Proyecto</label><select id="nProy" required></select></div>
+      <div class="field"><label for="nInst">Institución</label><select id="nInst" required></select></div>
+      <div class="field"><label for="nTipoT">Tipo de trámite</label><select id="nTipoT">
+        <option>Solicitud</option><option>Autorización</option><option>Dictamen</option><option>Licencia</option><option>Renovación</option><option>Factibilidad</option></select></div>
+      <div class="field"><label for="nEnc">Encargado</label><select id="nEnc"></select></div>
+      <div class="field"><label for="nProv">Proveedor o asesor</label><input id="nProv" placeholder="Opcional"></div>
+      <div class="field"><label for="nPrio">Prioridad</label><select id="nPrio"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div>
+      <div class="field"><label for="nEst">Estado</label><select id="nEst"><option value="no_iniciado">No iniciado</option><option value="en_curso">En curso</option><option value="obtenido">Obtenido</option></select></div>
+      <div class="field"><label>¿Quién tiene la pelota?</label>
+        <div class="seg" id="nResp"><button type="button" class="n" data-v="nosotros" aria-pressed="true">Nosotros</button><button type="button" class="i" data-v="institucion" aria-pressed="false">Institución</button></div></div>
+      <div class="field"><label for="nSol">Fecha de ingreso</label><input id="nSol" type="date"></div>
+      <div class="field"><label for="nRes">Resolución esperada</label><input id="nRes" type="date"></div>
+      <div class="field"><label for="nObt">Fecha de obtención</label><input id="nObt" type="date" disabled><span class="hint">Solo si el estado es Obtenido.</span></div>
+      <div class="field"><label for="nVence">Vencimiento de la licencia</label><input id="nVence" type="date" disabled><span class="hint">Para programar la renovación.</span></div>
+      <div class="field"><label for="nPaF">Próxima acción: fecha</label><input id="nPaF" type="date"></div>
+      <div class="field"><label for="nPaT">Próxima acción: qué hay que hacer</label><input id="nPaT" placeholder="Ej. Llevar documentos físicos"></div>
+      <div class="field full"><label for="nNota">Nota inicial</label><textarea id="nNota" placeholder="Opcional"></textarea></div>
+      <p class="err full" id="nErr"></p>
+    </div>
+    <footer><button class="btn" value="cancel">Cancelar</button><button class="btn dark" id="nGuardar" value="default">Guardar trámite</button></footer>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ============================================================
+   MODELO DE DATOS (espejo de lo que irá a Firestore)
+   Colecciones previstas:
+     proyectos/{id}      { nombre, tipo }
+     instituciones/{id}  { nombre }
+     usuarios/{uid}      { nombre, rol }
+     tramites/{id}       { ...campos de abajo }
+     tramites/{id}/notas/{id} { fecha, autor, texto, resp }
+   En la maqueta las notas van embebidas para simplificar.
+   Datos semilla: tomados del reporte ClickUp del 21/09/2026;
+   las "próximas acciones" son de ejemplo.
+   ============================================================ */
+const PROYECTOS = [
+  {id:'tactic',  nombre:'El Encuentro Tactic',       tipo:'Comercial'},
+  {id:'naire',   nombre:'Naire',                     tipo:'Vivienda horizontal'},
+  {id:'zacapa',  nombre:'El Encuentro Zacapa',       tipo:'Comercial'},
+  {id:'cvieja',  nombre:'El Encuentro Ciudad Vieja', tipo:'Comercial'},
+  {id:'patulul', nombre:'El Encuentro Patulul',      tipo:'Comercial'},
+  {id:'xela',    nombre:'El Encuentro Xela',         tipo:'Comercial'},
+  {id:'jalapa',  nombre:'El Encuentro Jalapa',       tipo:'Comercial'},
+  {id:'palin',   nombre:'El Encuentro Palín',        tipo:'Comercial'},
+  {id:'quiche',  nombre:'El Encuentro Quiché',       tipo:'Comercial'},
+  {id:'sjp',     nombre:'El Encuentro SJP',          tipo:'Comercial'},
+];
+const INSTITUCIONES = ['DGAC (Aeronáutica Civil)','MSPAS (Salud)','Caminos (CIV)','INAB','MARN','Municipalidad','CONRED','Distribuidora eléctrica','Empresa de agua'];
+const ENCARGADOS = ['Jose Rimola','Tomás','Sin asignar'];
+const TIPOS = [...new Set(PROYECTOS.map(p=>p.tipo))];
+
+const N = (fecha,texto,resp,autor='Jose Rimola') => ({fecha,texto,resp,autor});
+let TRAMITES = [
+ {id:'T-001',proyecto:'tactic',nombre:'Dictamen de altura máxima',inst:'DGAC (Aeronáutica Civil)',tipoT:'Dictamen',prio:'alta',estado:'en_curso',resp:'nosotros',enc:'Jose Rimola',fSol:'2025-02-18',fRes:'2026-08-17',pa:{f:'2026-09-28',t:'Reingresar formulario corregido'},
+  notas:[N('2026-08-28','DGAC solicita correcciones al formulario.','nosotros')]},
+ {id:'T-002',proyecto:'tactic',nombre:'Dictamen sanitario',inst:'MSPAS (Salud)',tipoT:'Dictamen',prio:'baja',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2026-02-25',fRes:'2026-08-17',pa:{f:'2026-10-02',t:'Llamar para estado de revisión'},
+  notas:[N('2026-08-25','Se entregaron correcciones de planos y memorias.','institucion')]},
+ {id:'T-003',proyecto:'tactic',nombre:'Derecho de vía',inst:'Caminos (CIV)',tipoT:'Solicitud',prio:'baja',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2025-03-14',fRes:'2026-08-17',pa:{f:'2026-09-30',t:'Seguimiento en Planificación'},
+  notas:[N('2026-09-10','Expediente en Planificación, pendiente de pasar a Derecho de Vía.','institucion')]},
+ {id:'T-004',proyecto:'tactic',nombre:'Licencia forestal',inst:'INAB',tipoT:'Autorización',prio:'urgente',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2026-02-23',fRes:'2026-08-12',pa:{f:'2026-09-25',t:'Confirmar fecha de visita del inspector'},
+  notas:[N('2026-08-31','Subsanación ingresada en plataforma.','institucion'),N('2026-09-01','Documentos físicos entregados. Esperando visita del inspector al nuevo terreno.','institucion')]},
+ {id:'T-005',proyecto:'naire',nombre:'Derecho de vía',inst:'Caminos (CIV)',tipoT:'Solicitud',prio:'baja',estado:'en_curso',resp:'nosotros',enc:'Tomás',fSol:'2025-11-07',fRes:null,pa:{f:'2026-09-25',t:'Terminar correcciones y reingresar'},
+  notas:[N('2026-08-29','Correcciones en proceso, entrega prevista primera semana de septiembre.','nosotros')]},
+ {id:'T-006',proyecto:'naire',nombre:'Dictamen de altura máxima',inst:'DGAC (Aeronáutica Civil)',tipoT:'Dictamen',prio:'alta',estado:'en_curso',resp:'nosotros',enc:'Jose Rimola',fSol:'2026-04-28',fRes:null,pa:{f:'2026-09-29',t:'Entregar correcciones'},
+  notas:[N('2026-08-28','DGAC solicita correcciones.','nosotros')]},
+ {id:'T-007',proyecto:'naire',nombre:'Licencia de construcción',inst:'Municipalidad',tipoT:'Licencia',prio:'media',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2025-12-04',fRes:null,pa:{f:'2026-10-05',t:'Pedir estado en ventanilla'},
+  notas:[]},
+ {id:'T-008',proyecto:'zacapa',nombre:'Permiso de construcción PAD Little Caesars',inst:'Municipalidad',tipoT:'Licencia',prio:'urgente',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2026-08-12',fRes:null,pa:{f:'2026-09-26',t:'Seguimiento a revisión municipal'},
+  notas:[N('2026-08-21','Correcciones entregadas. En revisión en Municipalidad.','institucion')]},
+ {id:'T-009',proyecto:'zacapa',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'media',estado:'no_iniciado',resp:'nosotros',enc:'Jose Rimola',fSol:null,fRes:null,fVence:'2028-11-30',pa:{f:'2028-11-01',t:'Iniciar renovación'},notas:[]},
+ {id:'T-010',proyecto:'cvieja',nombre:'Revisión de derecho de vía',inst:'Caminos (CIV)',tipoT:'Solicitud',prio:'media',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2025-11-07',fRes:null,pa:{f:'2026-10-08',t:'Seguimiento cambio de diseño'},
+  notas:[N('2026-09-04','Se ingresó cambio de diseño y actualización de derecho de vía.','institucion')]},
+ {id:'T-011',proyecto:'cvieja',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'media',estado:'no_iniciado',resp:'nosotros',enc:'Jose Rimola',fVence:'2027-09-30',pa:{f:'2027-09-01',t:'Iniciar renovación'},notas:[]},
+ {id:'T-012',proyecto:'patulul',nombre:'Permiso de Caminos',inst:'Caminos (CIV)',tipoT:'Solicitud',prio:'media',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2024-01-03',fRes:null,pa:{f:'2026-10-01',t:'Consultar notificación en Secretaría'},
+  notas:[N('2026-06-15','En Secretaría, pendiente de notificación.','institucion')]},
+ {id:'T-013',proyecto:'xela',nombre:'Permiso de Caminos',inst:'Caminos (CIV)',tipoT:'Solicitud',prio:'media',estado:'en_curso',resp:'institucion',enc:'Jose Rimola',fSol:'2024-01-03',fRes:null,pa:{f:'2026-10-01',t:'Consultar notificación en Secretaría'},
+  notas:[N('2026-06-15','En Secretaría, pendiente de notificación.','institucion')]},
+ {id:'T-014',proyecto:'jalapa',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'media',estado:'no_iniciado',resp:'nosotros',enc:'Jose Rimola',fVence:'2028-11-30',pa:{f:'2028-11-01',t:'Iniciar renovación'},notas:[]},
+ {id:'T-015',proyecto:'palin',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'alta',estado:'no_iniciado',resp:'nosotros',enc:'Jose Rimola',prov:'INAF',fVence:'2026-12-31',pa:{f:'2026-11-29',t:'Ejecutar renovación con INAF'},
+  notas:[N('2026-09-15','INAF cotizó Q2,000. Debe ejecutarse el mes del vencimiento.','nosotros')]},
+ {id:'T-016',proyecto:'quiche',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'media',estado:'no_iniciado',resp:'nosotros',enc:'Jose Rimola',fVence:'2027-09-30',pa:{f:'2027-09-01',t:'Iniciar renovación'},notas:[]},
+ {id:'T-017',proyecto:'sjp',nombre:'Renovación licencia ambiental',inst:'MARN',tipoT:'Renovación',prio:'media',estado:'no_iniciado',resp:'nosotros',enc:'Sin asignar',fVence:'2031-03-31',pa:{f:'2031-03-01',t:'Iniciar renovación'},notas:[]},
+];
+
+/* ---------- utilidades de fecha ---------- */
+const HOY = new Date(); HOY.setHours(0,0,0,0);
+const pad = n => String(n).padStart(2,'0');
+const iso = dt => `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
+const HOYS = iso(HOY);
+const D = s => s ? new Date(s+'T00:00:00') : null;
+const dias = s => s ? Math.round((D(s)-HOY)/864e5) : null;
+const fmt = s => s ? D(s).toLocaleDateString('es-GT',{day:'numeric',month:'short',year:'numeric'}) : '—';
+const fmtLargo = s => D(s).toLocaleDateString('es-GT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const addDays = (s,n) => { const x=D(s); x.setDate(x.getDate()+n); return iso(x); };
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const P = id => PROYECTOS.find(p=>p.id===id) || {nombre:id,tipo:''};
+const abierto = t => t.estado==='en_curso' || t.estado==='no_iniciado';
+const ultimaNota = t => t.notas.length ? t.notas[t.notas.length-1] : null;
+const diasQuieto = t => { const u = ultimaNota(t); const base = u ? u.fecha : t.fSol; return base ? -dias(base) : null; };
+const resolVencida = t => t.estado==='en_curso' && t.fRes && dias(t.fRes) < 0;
+const accionAtrasada = t => abierto(t) && t.pa?.f && dias(t.pa.f) < 0;
+const licPorVencer = t => t.fVence && dias(t.fVence) >= 0 && dias(t.fVence) <= 120 && t.estado==='no_iniciado';
+
+/* ---------- chips ---------- */
+const ESTADO = {no_iniciado:['No iniciado','c-idle'],en_curso:['En curso','c-plain'],obtenido:['Obtenido','c-ok'],denegado:['Denegado','c-late']};
+const chipEstado = t => `<span class="chip ${ESTADO[t.estado][1]}">${ESTADO[t.estado][0]}</span>`;
+const chipResp = t => !abierto(t) ? '' : t.resp==='nosotros'
+  ? `<span class="chip c-nos">Nos toca</span>` : `<span class="chip c-inst">Espera institución</span>`;
+const chipAlerta = t => {
+  if (resolVencida(t)) return `<span class="chip c-late">Resolución vencida hace ${-dias(t.fRes)} d</span>`;
+  if (accionAtrasada(t)) return `<span class="chip c-late">Acción atrasada ${-dias(t.pa.f)} d</span>`;
+  if (licPorVencer(t)) return `<span class="chip c-late">Licencia vence en ${dias(t.fVence)} d</span>`;
+  return '';
+};
+const PRIO = {baja:'Baja',media:'Media',alta:'Alta',urgente:'Urgente'};
+
+/* ---------- estado de la UI ---------- */
+const S = { tab:'dashboard', sort:{k:'pa',dir:1}, cal:{y:HOY.getFullYear(),m:HOY.getMonth()},
+  f:{q:'',tipo:'',proy:'',inst:'',enc:'',est:'abiertos',resp:'',desde:'',hasta:''},
+  rep:{desde:addDays(HOYS,-7),hasta:HOYS} };
+
+const TABS = [['dashboard','Dashboard'],['agenda','Agenda'],['calendario','Calendario'],['bitacora','Bitácora'],['tramites','Trámites'],['reporte','Reporte semanal']];
+
+function fechasClave(t){ return [t.pa?.f,t.fRes,t.fVence].filter(Boolean); }
+function filtrados(){
+  const f=S.f, q=f.q.trim().toLowerCase();
+  return TRAMITES.filter(t=>{
+    const p=P(t.proyecto);
+    if (f.tipo && p.tipo!==f.tipo) return false;
+    if (f.proy && t.proyecto!==f.proy) return false;
+    if (f.inst && t.inst!==f.inst) return false;
+    if (f.enc && t.enc!==f.enc) return false;
+    if (f.est==='abiertos' && !abierto(t)) return false;
+    if (f.est && f.est!=='abiertos' && t.estado!==f.est) return false;
+    if (f.resp && (t.resp!==f.resp || !abierto(t))) return false;
+    if (f.desde || f.hasta){
+      const ok = fechasClave(t).some(x=>(!f.desde||x>=f.desde)&&(!f.hasta||x<=f.hasta));
+      if(!ok) return false;
+    }
+    if (q){
+      const hay=[t.id,t.nombre,t.inst,p.nombre,t.enc,t.pa?.t,...t.notas.map(n=>n.texto)].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+/* ---------- filtros ---------- */
+function opts(sel, arr, todos){ sel.innerHTML = `<option value="">${todos}</option>` + arr.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join(''); }
+function initFiltros(){
+  opts(ftipo, TIPOS.map(x=>[x,x]), 'Todos');
+  opts(fproy, PROYECTOS.map(p=>[p.id,p.nombre]), 'Todos');
+  opts(finst, INSTITUCIONES.map(x=>[x,x]), 'Todas');
+  opts(fenc, ENCARGADOS.map(x=>[x,x]), 'Todos');
+  const map={fq:'q',ftipo:'tipo',fproy:'proy',finst:'inst',fenc:'enc',fest:'est',fresp:'resp',fdesde:'desde',fhasta:'hasta'};
+  Object.entries(map).forEach(([id,k])=>{
+    const el=document.getElementById(id);
+    el.addEventListener(el.tagName==='INPUT'&&el.type==='search'?'input':'change',()=>{ S.f[k]=el.value; render(); });
+  });
+  ftipo.addEventListener('change',()=>{ // limitar proyectos al tipo
+    const list = PROYECTOS.filter(p=>!S.f.tipo||p.tipo===S.f.tipo);
+    opts(fproy, list.map(p=>[p.id,p.nombre]), 'Todos'); S.f.proy=''; render();
+  });
+  limpiar.onclick=()=>{ Object.keys(S.f).forEach(k=>S.f[k]=''); S.f.est='abiertos';
+    Object.keys(map).forEach(id=>document.getElementById(id).value=S.f[map[id]]); initFiltrosProy(); render(); };
+}
+function initFiltrosProy(){ opts(fproy, PROYECTOS.map(p=>[p.id,p.nombre]), 'Todos'); }
+function setFiltro(k,v){ S.f[k]=v; const id={resp:'fresp',est:'fest'}[k]; if(id) document.getElementById(id).value=v; }
+
+/* ---------- vistas ---------- */
+function vDashboard(L){
+  const ab=L.filter(abierto);
+  const nos=ab.filter(t=>t.resp==='nosotros'&&t.estado==='en_curso');
+  const inst=ab.filter(t=>t.resp==='institucion');
+  const venc=ab.filter(resolVencida), atr=ab.filter(accionAtrasada);
+  const semana=ab.filter(t=>t.pa?.f && dias(t.pa.f)>=0 && dias(t.pa.f)<=7);
+  const lic=ab.filter(licPorVencer);
+  const bars=(key,label)=>{
+    const g={}; ab.forEach(t=>{const k=label(t); g[k]=g[k]||{n:0,i:0,o:0}; g[k][t.estado==='no_iniciado'?'o':t.resp==='nosotros'?'n':'i']++;});
+    const rows=Object.entries(g).map(([k,v])=>[k,v,v.n+v.i+v.o]).sort((a,b)=>b[2]-a[2]);
+    const max=Math.max(1,...rows.map(r=>r[2]));
+    return rows.map(([k,v,tot])=>`<div class="bar"><span class="lbl" title="${esc(k)}">${esc(k)}</span><span class="track">
+      <i style="width:${v.n/max*100}%;background:var(--nos)"></i><i style="width:${v.i/max*100}%;background:var(--inst)"></i><i style="width:${v.o/max*100}%;background:#B8C0CB"></i></span><span class="v">${tot}</span></div>`).join('') || '<p class="hint">Sin datos con estos filtros.</p>';
+  };
+  const quietos=ab.filter(t=>t.estado==='en_curso').map(t=>[t,diasQuieto(t)]).filter(x=>x[1]!==null).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const legend=`<div class="legend"><span><i class="dot" style="background:var(--nos)"></i>Nos toca</span><span><i class="dot" style="background:var(--inst)"></i>Espera institución</span><span><i class="dot" style="background:#B8C0CB"></i>No iniciado</span></div>`;
+  return `
+  <div class="court">
+    <div class="nos" data-go="nosotros"><h3>Nos toca a nosotros</h3><div class="n">${nos.length}</div><p>Trámites en curso esperando una acción de BAMBU: correcciones, documentos, pagos.</p></div>
+    <div class="inst" data-go="institucion"><h3>Esperando a la institución</h3><div class="n">${inst.length}</div><p>Ingresados y en revisión. Lo que toca es dar seguimiento.</p></div>
+  </div>
+  <div class="kpis">
+    <button class="kpi late" data-open="${venc.map(t=>t.id).join(',')}"><b>${venc.length}</b><span>Con fecha de resolución vencida</span></button>
+    <button class="kpi ${atr.length?'late':''}" data-tab="agenda"><b>${semana.length}</b><span>Próximas acciones en 7 días${atr.length?` · ${atr.length} atrasadas`:''}</span></button>
+    <button class="kpi ${lic.length?'late':''}" data-tab="agenda"><b>${lic.length}</b><span>Licencias que vencen en 120 días sin renovación iniciada</span></button>
+  </div>
+  <div class="grid2">
+    <div class="panel"><h3>Abiertos por institución</h3>${legend}${bars('inst',t=>t.inst)}</div>
+    <div class="panel"><h3>Abiertos por proyecto</h3>${legend}${bars('proy',t=>P(t.proyecto).nombre)}</div>
+    <div class="panel"><h3>Más tiempo sin movimiento<span class="sub">días desde la última nota</span></h3>
+      <div class="list">${quietos.map(([t,n])=>`<div class="item" data-id="${t.id}"><div><div class="t">${esc(t.nombre)}</div><div class="m">${esc(P(t.proyecto).nombre)} · ${esc(t.inst)}</div></div><div class="chips"><span class="chip ${n>60?'c-late':'c-plain'}">${n} días</span>${chipResp(t)}</div></div>`).join('')||'<p class="hint">Nada en curso.</p>'}</div></div>
+    <div class="panel"><h3>Carga por encargado</h3>${legend}${bars('enc',t=>t.enc)}</div>
+  </div>`;
+}
+
+function itemHTML(t, extra=''){
+  return `<div class="item" data-id="${t.id}"><div><div class="t">${esc(t.nombre)}</div>
+    <div class="m">${esc(P(t.proyecto).nombre)} · ${esc(t.inst)} · ${esc(t.enc)}${extra}</div></div>
+    <div class="chips">${chipAlerta(t)}${chipResp(t)}${chipEstado(t)}</div></div>`;
+}
+
+function vAgenda(L){
+  const ab=L.filter(t=>abierto(t)&&t.pa?.f).sort((a,b)=>a.pa.f.localeCompare(b.pa.f));
+  if(!ab.length) return `<div class="empty">No hay próximas acciones con estos filtros. Agrega una desde el detalle de cualquier trámite.</div>`;
+  const atr=ab.filter(t=>t.pa.f<HOYS), fut=ab.filter(t=>t.pa.f>=HOYS);
+  const g={}; fut.forEach(t=>{(g[t.pa.f]=g[t.pa.f]||[]).push(t);});
+  let h='';
+  if(atr.length) h+=`<div class="day"><h4 class="late">Atrasadas (${atr.length})</h4><div class="panel list">${atr.map(t=>itemHTML(t,`<br><b>${esc(t.pa.t)}</b> · era para ${fmt(t.pa.f)}`)).join('')}</div></div>`;
+  Object.entries(g).forEach(([f,arr])=>{
+    const d=dias(f); const rel=d===0?'Hoy, ':d===1?'Mañana, ':'';
+    h+=`<div class="day"><h4>${rel}${fmtLargo(f)}</h4><div class="panel list">${arr.map(t=>itemHTML(t,`<br><b>${esc(t.pa.t)}</b>`)).join('')}</div></div>`;
+  });
+  return h;
+}
+
+function vCalendario(L){
+  const {y,m}=S.cal; const first=new Date(y,m,1); const start=new Date(first); start.setDate(1-((first.getDay()+6)%7));
+  const ev={}; const push=(f,o)=>{(ev[f]=ev[f]||[]).push(o);};
+  L.forEach(t=>{
+    if(t.pa?.f && abierto(t)) push(t.pa.f,{t,cls:'accion',txt:t.pa.t});
+    if(t.fRes && t.estado==='en_curso') push(t.fRes,{t,cls:'resol',txt:'Resolución esperada: '+t.nombre});
+    if(t.fVence) push(t.fVence,{t,cls:'vence',txt:'Vence licencia: '+t.nombre});
+  });
+  const dow=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(x=>`<div class="dow">${x}</div>`).join('');
+  let cells='';
+  for(let i=0;i<42;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i); const s=iso(d);
+    if(i>=35 && d.getMonth()!==m) break;
+    const es=(ev[s]||[]);
+    cells+=`<div class="cell ${d.getMonth()!==m?'out':''} ${s===HOYS?'today':''}"><span class="num">${d.getDate()}</span>
+      ${es.slice(0,4).map(e=>`<button class="ev ${e.cls}" data-id="${e.t.id}" title="${esc(P(e.t.proyecto).nombre+': '+e.txt)}">${esc(e.txt)}</button>`).join('')}
+      ${es.length>4?`<span class="hint">+${es.length-4} más</span>`:''}</div>`;
+  }
+  const mes=first.toLocaleDateString('es-GT',{month:'long',year:'numeric'});
+  return `<div class="calhead"><button class="btn sm" data-cal="-1" aria-label="Mes anterior">‹</button><h3>${mes}</h3><button class="btn sm" data-cal="1" aria-label="Mes siguiente">›</button><button class="btn sm" data-cal="0">Hoy</button>
+    <div class="legend" style="margin:0 0 0 auto"><span><i class="dot" style="background:var(--nos)"></i>Próxima acción</span><span><i class="dot" style="background:var(--inst)"></i>Resolución esperada</span><span><i class="dot" style="background:var(--late)"></i>Vence licencia</span></div></div>
+    <div class="cal">${dow}${cells}</div>`;
+}
+
+function vBitacora(L){
+  const all=[]; L.forEach(t=>t.notas.forEach(n=>all.push({t,n})));
+  all.sort((a,b)=>b.n.fecha.localeCompare(a.n.fecha));
+  if(!all.length) return `<div class="empty">Todavía no hay notas de seguimiento con estos filtros.</div>`;
+  return `<p class="hint" style="margin-top:0">Cada movimiento registrado en un trámite, del más reciente al más antiguo. Es el historial que ClickUp no guarda de forma ordenada.</p>
+  <div class="panel"><div class="log">${all.map(({t,n})=>`<div class="e ${n.resp==='nosotros'?'nos':'inst'}" data-id="${t.id}">
+    <div class="h">${fmt(n.fecha)} · ${esc(n.autor)} · ${esc(P(t.proyecto).nombre)}</div>
+    <div class="x"><b>${esc(t.nombre)}</b> (${esc(t.inst)}): ${esc(n.texto)}</div>
+    <div class="h">Después de esto: ${n.resp==='nosotros'?'nos toca a nosotros':'espera a la institución'}</div></div>`).join('')}</div></div>`;
+}
+
+function vTramites(L){
+  const k=S.sort.k, dir=S.sort.dir;
+  const val={id:t=>t.id,nombre:t=>t.nombre,proy:t=>P(t.proyecto).nombre,inst:t=>t.inst,enc:t=>t.enc,estado:t=>t.estado,
+    pa:t=>t.pa?.f||'9999',quieto:t=>diasQuieto(t)??-1,prio:t=>['baja','media','alta','urgente'].indexOf(t.prio)};
+  const rows=[...L].sort((a,b)=>{const x=val[k](a),y=val[k](b);return (x>y?1:x<y?-1:0)*dir;});
+  const th=(key,l)=>`<th data-sort="${key}">${l}${k===key?(dir>0?' ▲':' ▼'):''}</th>`;
+  if(!rows.length) return `<div class="empty">Ningún trámite coincide con los filtros. Prueba quitando alguno.</div>`;
+  return `<div class="tablewrap"><table><thead><tr>${th('id','Código')}${th('nombre','Trámite')}${th('proy','Proyecto')}${th('inst','Institución')}${th('enc','Encargado')}${th('prio','Prioridad')}${th('estado','Estado')}${th('pa','Próxima acción')}${th('quieto','Sin movimiento')}</tr></thead><tbody>
+  ${rows.map(t=>`<tr data-id="${t.id}"><td>${t.id}</td><td><b>${esc(t.nombre)}</b><div>${chipAlerta(t)}</div></td><td>${esc(P(t.proyecto).nombre)}<div class="small">${esc(P(t.proyecto).tipo)}</div></td><td>${esc(t.inst)}</td><td>${esc(t.enc)}</td><td>${PRIO[t.prio]}</td><td>${chipEstado(t)} ${chipResp(t)}</td><td>${t.pa?`${fmt(t.pa.f)}<div class="small">${esc(t.pa.t)}</div>`:'—'}</td><td>${diasQuieto(t)!==null?diasQuieto(t)+' d':'—'}</td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+function vReporte(L){
+  const {desde,hasta}=S.rep;
+  const ab=L.filter(abierto);
+  const movs=[]; L.forEach(t=>t.notas.forEach(n=>{ if(n.fecha>=desde&&n.fecha<=hasta) movs.push({t,n}); }));
+  movs.sort((a,b)=>a.n.fecha.localeCompare(b.n.fecha));
+  const g={}; ab.forEach(t=>{(g[t.proyecto]=g[t.proyecto]||[]).push(t);});
+  const orden=Object.keys(g).sort((a,b)=>{
+    const s=x=>g[x].filter(t=>t.resp==='nosotros'&&t.estado==='en_curso').length*10+g[x].filter(resolVencida).length;
+    return s(b)-s(a);
+  });
+  return `
+  <div class="rep-head"><h2>Reporte semanal de trámites</h2>
+    <div class="field"><label for="rD">Desde</label><input id="rD" type="date" value="${desde}"></div>
+    <div class="field"><label for="rH">Hasta</label><input id="rH" type="date" value="${hasta}"></div>
+    <button class="btn dark" id="imprimir">Imprimir o guardar PDF</button></div>
+  <p class="hint">Periodo ${fmt(desde)} al ${fmt(hasta)} · generado ${fmt(HOYS)} · respeta los filtros activos.</p>
+  <div class="rep-sum">
+    <div><b>${ab.length}</b><span>abiertos en ${Object.keys(g).length} proyectos</span></div>
+    <div><b style="color:var(--nos)">${ab.filter(t=>t.resp==='nosotros'&&t.estado==='en_curso').length}</b><span>nos toca a nosotros</span></div>
+    <div><b style="color:var(--inst)">${ab.filter(t=>t.resp==='institucion').length}</b><span>esperan a la institución</span></div>
+    <div><b style="color:var(--late)">${ab.filter(resolVencida).length}</b><span>con resolución vencida</span></div>
+    <div><b>${movs.length}</b><span>movimientos en el periodo</span></div>
+  </div>
+  ${orden.map(pid=>{const p=P(pid),arr=g[pid];return `<div class="rep-proj"><h3>${esc(p.nombre)} <span class="tp">${esc(p.tipo)}</span></h3>
+    <div class="tablewrap"><table><thead><tr><th>Trámite</th><th>Institución</th><th>Situación</th><th>Última nota</th><th>Próxima acción</th></tr></thead><tbody>
+    ${arr.map(t=>{const u=ultimaNota(t);return `<tr data-id="${t.id}"><td><b>${esc(t.nombre)}</b><div class="small">${PRIO[t.prio]} · ${esc(t.enc)}</div></td><td>${esc(t.inst)}</td>
+      <td>${chipEstado(t)} ${chipResp(t)}<div>${chipAlerta(t)}</div></td>
+      <td>${u?`${esc(u.texto)}<div class="small">${fmt(u.fecha)}${u.fecha>=desde&&u.fecha<=hasta?' · esta semana':''}</div>`:'<span class="small">Sin notas</span>'}</td>
+      <td>${t.pa?`${esc(t.pa.t)}<div class="small">${fmt(t.pa.f)}</div>`:'—'}</td></tr>`;}).join('')}
+    </tbody></table></div></div>`;}).join('')}
+  <div class="rep-proj"><h3>Movimientos del periodo</h3>
+    ${movs.length?`<div class="panel"><div class="log">${movs.map(({t,n})=>`<div class="e ${n.resp==='nosotros'?'nos':'inst'}" data-id="${t.id}"><div class="h">${fmt(n.fecha)} · ${esc(P(t.proyecto).nombre)}</div><div class="x"><b>${esc(t.nombre)}</b>: ${esc(n.texto)}</div></div>`).join('')}</div></div>`
+      :`<div class="empty">Sin movimientos registrados en el periodo. Si hubo gestiones, falta anotarlas en cada trámite.</div>`}
+  </div>`;
+}
+
+/* ---------- render principal ---------- */
+function render(){
+  const L=filtrados();
+  tabs.innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-t="${k}">${l}${k==='tramites'?`<span class="count">${L.length}</span>`:''}</button>`).join('');
+  const V={dashboard:vDashboard,agenda:vAgenda,calendario:vCalendario,bitacora:vBitacora,tramites:vTramites,reporte:vReporte}[S.tab];
+  view.innerHTML=V(L);
+  if(S.tab==='reporte'){
+    rD.onchange=e=>{S.rep.desde=e.target.value;render();};
+    rH.onchange=e=>{S.rep.hasta=e.target.value;render();};
+    imprimir.onclick=()=>window.print();
+  }
+}
+tabs.addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(b){S.tab=b.dataset.t; render();}});
+view.addEventListener('click',e=>{
+  const s=e.target.closest('[data-sort]'); if(s){const k=s.dataset.sort; S.sort={k,dir:S.sort.k===k?-S.sort.dir:1}; render(); return;}
+  const c=e.target.closest('[data-cal]'); if(c){const v=+c.dataset.cal; if(v===0){S.cal={y:HOY.getFullYear(),m:HOY.getMonth()};} else {const d=new Date(S.cal.y,S.cal.m+v,1); S.cal={y:d.getFullYear(),m:d.getMonth()};} render(); return;}
+  const g=e.target.closest('[data-go]'); if(g){setFiltro('resp',g.dataset.go); if(g.dataset.go==='nosotros'){setFiltro('est','en_curso');} S.tab='tramites'; render(); return;}
+  const tb=e.target.closest('[data-tab]'); if(tb){S.tab=tb.dataset.tab; render(); return;}
+  const op=e.target.closest('[data-open]'); if(op){ S.tab='tramites'; S.sort={k:'pa',dir:1}; render(); return; }
+  const it=e.target.closest('[data-id]'); if(it) abrir(it.dataset.id);
+});
+
+/* ---------- detalle ---------- */
+let actual=null;
+function abrir(id){
+  actual=TRAMITES.find(t=>t.id===id); if(!actual) return;
+  const t=actual,p=P(t.proyecto);
+  dTitle.textContent=t.nombre;
+  dBody.innerHTML=`
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">${chipEstado(t)}${chipResp(t)}${chipAlerta(t)}</div>
+    <dl class="kv">
+      <dt>Código</dt><dd>${t.id}</dd>
+      <dt>Proyecto</dt><dd>${esc(p.nombre)} · ${esc(p.tipo)}</dd>
+      <dt>Institución</dt><dd>${esc(t.inst)}</dd>
+      <dt>Tipo</dt><dd>${esc(t.tipoT)}</dd>
+      <dt>Encargado</dt><dd>${esc(t.enc)}</dd>
+      ${t.prov?`<dt>Proveedor o asesor</dt><dd>${esc(t.prov)}</dd>`:''}
+      <dt>Prioridad</dt><dd>${PRIO[t.prio]}</dd>
+      <dt>Ingreso</dt><dd>${fmt(t.fSol)}</dd>
+      <dt>Resolución esperada</dt><dd>${fmt(t.fRes)}</dd>
+      ${t.fObt?`<dt>Obtenido</dt><dd>${fmt(t.fObt)}</dd>`:''}
+      ${t.fVence?`<dt>Vence la licencia</dt><dd>${fmt(t.fVence)}</dd>`:''}
+      <dt>Próxima acción</dt><dd>${t.pa?`${esc(t.pa.t)} · ${fmt(t.pa.f)}`:'—'}</dd>
+      <dt>Sin movimiento</dt><dd>${diasQuieto(t)!==null?diasQuieto(t)+' días':'—'}</dd>
+    </dl>
+    <div class="box no-print"><h4>Registrar seguimiento</h4>
+      <div class="field" style="margin-bottom:10px"><label for="aTxt">Qué pasó</label><textarea id="aTxt" placeholder="Ej. Se entregaron correcciones en ventanilla"></textarea></div>
+      <div class="field" style="margin-bottom:10px"><label>Después de esto, ¿quién tiene la pelota?</label>
+        <div class="seg" id="aResp"><button type="button" class="n" data-v="nosotros" aria-pressed="${t.resp==='nosotros'}">Nosotros</button><button type="button" class="i" data-v="institucion" aria-pressed="${t.resp==='institucion'}">Institución</button></div></div>
+      <div class="row2" style="margin-bottom:10px">
+        <div class="field"><label for="aPaF">Próxima acción: fecha</label><input id="aPaF" type="date" value="${t.pa?.f||''}"></div>
+        <div class="field"><label for="aPaT">Qué hay que hacer</label><input id="aPaT" value="${esc(t.pa?.t||'')}"></div></div>
+      <div class="row2" style="margin-bottom:12px">
+        <div class="field"><label for="aEst">Estado</label><select id="aEst">${Object.entries(ESTADO).map(([k,[l]])=>`<option value="${k}" ${k===t.estado?'selected':''}>${l}</option>`).join('')}</select></div>
+        <div class="field"><label for="aObt">Fecha de obtención</label><input id="aObt" type="date" value="${t.fObt||''}" ${t.estado==='obtenido'?'':'disabled'}></div></div>
+      <p class="err" id="aErr"></p>
+      <button class="btn dark" id="aGuardar">Guardar seguimiento</button>
+    </div>
+    <h4 style="margin:0 0 10px">Historial</h4>
+    ${t.notas.length?`<div class="log">${[...t.notas].reverse().map(n=>`<div class="e ${n.resp==='nosotros'?'nos':'inst'}"><div class="h">${fmt(n.fecha)} · ${esc(n.autor)}</div><div class="x">${esc(n.texto)}</div></div>`).join('')}</div>`:'<p class="hint">Sin notas todavía. El primer seguimiento que registres aparecerá aquí y en la bitácora.</p>'}`;
+  segInit(aResp);
+  aEst.onchange=()=>{aObt.disabled=aEst.value!=='obtenido'; if(!aObt.disabled&&!aObt.value) aObt.value=HOYS;};
+  aGuardar.onclick=()=>{
+    const txt=aTxt.value.trim(); const est=aEst.value;
+    if(!txt && est===t.estado && aPaF.value===(t.pa?.f||'')){aErr.textContent='Escribe qué pasó o cambia algún dato antes de guardar.';return;}
+    if(est==='obtenido' && !aObt.value){aErr.textContent='Indica la fecha de obtención.';return;}
+    const resp=segVal(aResp);
+    if(txt) t.notas.push(N(HOYS,txt,resp));
+    t.resp=resp; t.estado=est; t.fObt=est==='obtenido'?aObt.value:null;
+    t.pa=aPaF.value?{f:aPaF.value,t:aPaT.value.trim()||'Seguimiento'}:null;
+    toast('Seguimiento guardado'); render(); abrir(t.id);
+  };
+  drawer.classList.add('on'); scrim.classList.add('on'); dClose.focus();
+}
+function cerrar(){drawer.classList.remove('on');scrim.classList.remove('on');}
+dClose.onclick=cerrar; scrim.onclick=cerrar;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
+
+function segInit(el){el.querySelectorAll('button').forEach(b=>b.onclick=()=>{el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});}
+function segVal(el){return el.querySelector('[aria-pressed=true]').dataset.v;}
+
+/* ---------- nuevo trámite ---------- */
+function initModal(){
+  nProy.innerHTML=PROYECTOS.map(p=>`<option value="${p.id}">${esc(p.nombre)} (${esc(p.tipo)})</option>`).join('');
+  nInst.innerHTML=INSTITUCIONES.map(x=>`<option>${esc(x)}</option>`).join('');
+  nEnc.innerHTML=ENCARGADOS.map(x=>`<option>${esc(x)}</option>`).join('');
+  segInit(nResp);
+  nEst.onchange=()=>{const ob=nEst.value==='obtenido'; nObt.disabled=!ob; nVence.disabled=!ob&&nTipoT.value!=='Renovación'; if(ob&&!nObt.value) nObt.value=HOYS;};
+  nTipoT.onchange=nEst.onchange;
+  nuevoBtn.onclick=()=>{fNuevo.reset(); nErr.textContent=''; nEst.onchange(); modal.showModal(); nNombre.focus();};
+  nGuardar.onclick=e=>{
+    e.preventDefault();
+    if(!nNombre.value.trim()){nErr.textContent='Falta el nombre del trámite.';return;}
+    if(nRes.value && nSol.value && nRes.value<nSol.value){nErr.textContent='La resolución esperada no puede ser antes del ingreso.';return;}
+    if(nSol.value && nSol.value>HOYS && nEst.value!=='no_iniciado'){nErr.textContent='La fecha de ingreso está en el futuro. Si aún no se ingresa, deja el estado en No iniciado.';return;}
+    const id='T-'+String(TRAMITES.length+1).padStart(3,'0');
+    const t={id,proyecto:nProy.value,nombre:nNombre.value.trim(),inst:nInst.value,tipoT:nTipoT.value,prio:nPrio.value,estado:nEst.value,resp:segVal(nResp),enc:nEnc.value,prov:nProv.value.trim()||null,
+      fSol:nSol.value||null,fRes:nRes.value||null,fObt:nEst.value==='obtenido'?nObt.value:null,fVence:nVence.disabled?null:(nVence.value||null),
+      pa:nPaF.value?{f:nPaF.value,t:nPaT.value.trim()||'Seguimiento'}:null,notas:[]};
+    if(nNota.value.trim()) t.notas.push(N(HOYS,nNota.value.trim(),t.resp));
+    TRAMITES.push(t); modal.close(); toast('Trámite '+id+' guardado'); render();
+  };
+}
+
+function toast(m){const el=document.getElementById('toast'); el.textContent=m; el.style.display='block'; clearTimeout(el._t); el._t=setTimeout(()=>el.style.display='none',2200);}
+menuBtn.onclick=()=>filtros.classList.toggle('on');
+
+initFiltros(); initModal(); render();
+</script>
+</body>
+</html>
