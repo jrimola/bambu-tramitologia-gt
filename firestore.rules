@@ -1,0 +1,113 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function correo() {
+      return request.auth.token.email.lower();
+    }
+
+    function esDominioBambu() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*@bambudev[.]com$');
+    }
+
+    function usuarioDoc() {
+      return get(/databases/$(database)/documents/usuarios/$(correo())).data;
+    }
+
+    function usuarioRegistradoActivo() {
+      return esDominioBambu()
+        && exists(/databases/$(database)/documents/usuarios/$(correo()))
+        && usuarioDoc().activo == true;
+    }
+
+    function rol() {
+      return usuarioDoc().rol;
+    }
+
+    function esConsulta() {
+      return usuarioRegistradoActivo() && rol() in ['consulta', 'gestor', 'admin'];
+    }
+
+    function esGestor() {
+      return usuarioRegistradoActivo() && rol() in ['gestor', 'admin'];
+    }
+
+    function esAdmin() {
+      return usuarioRegistradoActivo() && rol() == 'admin';
+    }
+
+    // Un admin no puede quitarse su propio rol ni desactivarse desde aqui.
+    // Nota: que siempre quede al menos un admin activo no se puede garantizar
+    // con reglas de Firestore (no se puede contar la coleccion completa aqui);
+    // esa validacion vive en la pantalla de Usuarios de la app.
+    function noSeAutoDegrada(correoDoc) {
+      return !(correoDoc == correo())
+        || (request.resource.data.rol == resource.data.rol
+            && request.resource.data.activo == resource.data.activo);
+    }
+
+    match /usuarios/{correoDoc} {
+      allow read: if esConsulta();
+      allow create: if esAdmin();
+      allow update: if esAdmin() && noSeAutoDegrada(correoDoc);
+      allow delete: if false;
+    }
+
+    match /tipologias/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /proyectos/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /instituciones/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /tiposTramite/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /plantillas/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /tiposSubactividad/{id} {
+      allow read: if esConsulta();
+      allow write: if esAdmin();
+    }
+
+    match /tramites/{tramiteId} {
+      allow read: if esConsulta();
+      allow create, update: if esGestor();
+      allow delete: if false;
+
+      match /seguimientos/{id} {
+        allow read: if esConsulta();
+        allow create: if esGestor();
+        allow update, delete: if false;
+      }
+
+      match /subactividades/{id} {
+        allow read: if esConsulta();
+        allow create, update: if esGestor();
+        allow delete: if false;
+      }
+    }
+
+    // Generados solo por Cloud Functions con Admin SDK (que no pasa por estas reglas).
+    match /reportes/{id} {
+      allow read: if esConsulta();
+      allow write: if false;
+    }
+  }
+}
