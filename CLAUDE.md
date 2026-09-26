@@ -2,6 +2,14 @@
 
 App web para dar seguimiento a los trámites y permisos de los proyectos inmobiliarios de BAMBU Guatemala. Reemplaza el seguimiento que hoy se hace en ClickUp. Genera dashboard, agenda, calendario, bitácora y reporte semanal, con filtros por proyecto, tipología, institución, fecha y encargado.
 
+## Estado actual
+
+- **Terminado:** pasos 1 y 2 del orden de trabajo.
+  - Paso 1: Git + GitHub (`https://github.com/jrimola/bambu-tramitologia-gt`, cuenta personal de Jose, no hay organización), proyecto de Firebase creado (plan Spark), estructura de carpetas.
+  - Paso 2: Authentication con Google habilitado, Firestore creado (`us-central1`), reglas de seguridad desplegadas (dominio bambudev.com + usuario registrado y activo + roles jerárquicos), primer admin (`jrimola@bambudev.com`) creado a mano, app React + Vite en `app/` con login, pantalla de "solicita acceso" y pantalla de Usuarios (agregar por correo, asignar rol, desactivar) funcionando y probadas en el navegador.
+- **Sigue:** paso 3, catálogos (carga desde `datos/catalogos-tramitologia-gt.xlsx` + pantalla de edición para tipologías, proyectos, instituciones, tipos de trámite, plantillas y tipos de subactividad).
+- **Pendiente sin fecha:** cambio de diseño de la página web, por definir con Jose. No iniciar sin instrucciones.
+
 ## Cómo trabajar con Jose
 
 - Jose es ingeniero civil, no programador. Explica cada comando antes de ejecutarlo y qué hace, en español.
